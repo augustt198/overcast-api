@@ -18,10 +18,10 @@ First, require `overcast_api` in your file
 require 'overcast_api'
 ```
 
-Get a player with `OvercastApi.player`
+Get a player with `OvercastAPI.player`
 
 ```ruby
-player = OvercastApi.player('monsieurapple')
+player = OvercastAPI.player 'monsieurapple'
 ```
 
 Full output:
