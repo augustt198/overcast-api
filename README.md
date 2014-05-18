@@ -1,29 +1,41 @@
 # OvercastApi
 
-TODO: Write a gem description
+Gem for getting information from the Overcast Network website 
 
 ## Installation
 
-Add this line to your application's Gemfile:
+Add this to your Gemfile:
 
-    gem 'overcast_api'
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install overcast_api
+```ruby
+gem 'overcast_api', github: 'augustt198/overcast-api'
+```
 
 ## Usage
 
-TODO: Write usage instructions here
+First, require `overcast_api` in your file
 
-## Contributing
+```ruby
+require 'overcast_api'
+```
 
-1. Fork it
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
+Get a player with `OvercastApi.player`
+
+```ruby
+player = OvercastApi.player('monsieurapple')
+
+player.kills # => 5604
+
+=> #<OvercastApi::Player:0x007fd11215a1e0
+    @username="MonsieurApple", @status="Seen about 14 hours ago",
+    @ranks=[
+        #<OvercastApi::Rank:0x007fd11214bb68 @name="Administrator", @color="#FA0">,
+        #<OvercastApi::Rank:0x007fd11214af38 @name="Developer", @color="purple">
+    ],
+    @kills=5604, @deaths=4131,
+    @friend_count=182,
+    @kd_ratio=1.357,
+    @kk_ratio=1.728,
+    @server_joins=8553,
+    @days_played=9.24,
+    @raindrops=29100> 
+```
