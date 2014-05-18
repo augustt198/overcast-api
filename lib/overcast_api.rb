@@ -2,7 +2,7 @@ require 'overcast_api/version'
 require 'httparty'
 require 'nokogiri'
 
-module OvercastApi
+module OvercastAPI
 
   BASE_URL = 'http://oc.tc'
 

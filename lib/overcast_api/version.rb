@@ -1,3 +1,3 @@
-module OvercastApi
+module OvercastAPI
   VERSION = "0.0.1"
 end

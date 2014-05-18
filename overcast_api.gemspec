@@ -5,7 +5,7 @@ require 'overcast_api/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "overcast_api"
-  spec.version       = OvercastApi::VERSION
+  spec.version       = OvercastAPI::VERSION
   spec.authors       = ["August"]
   spec.email         = ["augustt198@gmail.com"]
   spec.description   = %q{Gem for retrieving information from the Overcast Network website}
