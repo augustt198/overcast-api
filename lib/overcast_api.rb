@@ -40,6 +40,7 @@ module OvercastAPI
     attr_reader :info
     attr_reader :bio
     attr_reader :trophies
+    attr_reader :pvp_encounters
 
     def initialize(container)
       header = container.xpath "section/div[@class='page-header']"
@@ -119,6 +120,19 @@ module OvercastAPI
         trophies << Trophy.new(name, description, icon)
       end
 
+      pvp_encounters = info_tabs.xpath "div[@id='pvp-encounters']/div/div[@class='span6']"
+      @pvp_encounters = []
+      pvp_encounters.each do |col|
+        col.xpath('p').each do |encounter|
+          parts = encounter.xpath('a')
+          killer = parts[0].children[0]['title']
+          victim = parts[1].children[0]['title']
+          map = parts[2].text
+          time = parts[3]['title']
+          @pvp_encounters << PvPEncounter.new(killer, victim, map, time)
+        end
+      end
+
     end
 
   end
@@ -140,6 +154,19 @@ module OvercastAPI
       @name = name
       @description = description
       @icon = icon
+    end
+  end
+
+  class PvPEncounter
+    attr_reader :killer
+    attr_reader :victim
+    attr_reader :map
+    attr_reader :time
+    def initialize(killer, victim, map, time)
+      @killer = killer
+      @victim = victim
+      @map = map
+      @time = time
     end
   end
 
