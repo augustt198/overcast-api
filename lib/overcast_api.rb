@@ -41,6 +41,7 @@ module OvercastAPI
     attr_reader :bio
     attr_reader :trophies
     attr_reader :pvp_encounters
+    attr_reader :infractions
 
     def initialize(container)
       header = container.xpath "section/div[@class='page-header']"
@@ -133,6 +134,13 @@ module OvercastAPI
         end
       end
 
+      infractions_table = info_tabs.xpath "div[@id='infractions']/div/div/table/tbody/tr"
+      @infractions = []
+      infractions_table.each do |inf|
+        slots = inf.children # <td>
+        # @infractions << Infraction.new(punisher, punished, reason, type, expires, date)
+      end
+
     end
 
   end
@@ -167,6 +175,23 @@ module OvercastAPI
       @victim = victim
       @map = map
       @time = time
+    end
+  end
+
+  class Infraction
+    attr_reader :punisher
+    attr_reader :punished
+    attr_reader :reason
+    attr_reader :type
+    attr_reader :expires
+    attr_reader :date
+    def initialize(punisher, punished, reason, type, expires, date)
+      @punisher = punisher
+      @punished = punished
+      @reason = reason
+      @type = type
+      @expires = expires
+      @date = date
     end
   end
 
