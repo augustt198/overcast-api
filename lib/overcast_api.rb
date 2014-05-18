@@ -28,6 +28,12 @@ module OvercastApi
     attr_reader :name_color
     attr_reader :kills
     attr_reader :deaths
+    attr_reader :friend_count
+    attr_reader :kd_ration
+    attr_reader :kk_ratio
+    attr_reader :server_joins
+    attr_reader :days_played
+    attr_reader :raindrops
     attr_reader :monuments
 
     def initialize(container)
@@ -52,6 +58,22 @@ module OvercastApi
 
       @deaths = row.xpath("div[@class='span7']/div[@class='row-fluid']/div[@class='span4']/h2").text
       @deaths = @deaths.gsub!("\n", '').to_i
+
+      #puts row.xpath("div[@class='span2']/h2")
+      @friend_count = row.xpath("div[@class='span2']/h2")[0].text
+      @friend_count = @friend_count.gsub!("\n", '').to_i
+
+      stats_list = row.xpath("div[@class='span3']/h2")
+
+      @kd_ratio = stats_list[0].text.gsub!("\n", '').to_f
+      @kk_ratio = stats_list[1].text.gsub!("\n", '').to_f
+      @server_joins = stats_list[2].text.gsub!("\n", '').to_i
+      @days_played = stats_list[3].text.gsub!("\n", '').to_f
+      @raindrops = stats_list[4].text.gsub!("\n", '')
+      k = @raindrops.include? 'k'
+      @raindrops = @raindrops.to_f
+      @raindrops *= 1000 if k
+      @raindrops = @raindrops.to_i
     end
 
   end
