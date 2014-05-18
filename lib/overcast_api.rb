@@ -92,10 +92,10 @@ module OvercastAPI
         key = contact.xpath("h6").text
         if key == 'Team'
           value = contact.xpath("blockquote/a").text
-          link = contact.xpath("blockquote/a")[0]['href']
+          link = BASE_URL + contact.xpath("blockquote/a")[0]['href']
         else
           value = contact.xpath("blockquote/p/a").text
-          link = BASE_URL + contact.xpath("blockquote/p/a")[0]['href']
+          link = contact.xpath("blockquote/p/a")[0]['href']
         end
         @contacts[key] = value
         @contact_links[key] = link
