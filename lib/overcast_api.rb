@@ -35,6 +35,11 @@ module OvercastAPI
     attr_reader :days_played
     attr_reader :raindrops
     attr_reader :monuments
+    attr_reader :contacts
+    attr_reader :contact_links
+    attr_reader :info
+    attr_reader :bio
+    attr_reader :trophies
 
     def initialize(container)
       header = container.xpath "section/div[@class='page-header']"
@@ -74,6 +79,46 @@ module OvercastAPI
       @raindrops = @raindrops.to_f
       @raindrops *= 1000 if k
       @raindrops = @raindrops.to_i
+
+      info_tabs = container.xpath "section[2]/div[@class='row']/div[@class='span12']/div[@class='tabbable']/div[@class='tab-content']"
+
+      about = info_tabs.xpath "div[@id='about']"
+      contacts = about.xpath "div[1][@class='row']/div[@class='span4']"
+      @contacts = {}
+      @contact_links = {}
+      contacts.each do |contact|
+        key = contact.xpath("h6").text
+        if key == 'Team'
+          value = contact.xpath("blockquote/a").text
+          link = contact.xpath("blockquote/a")[0]['href']
+        else
+          value = contact.xpath("blockquote/p/a").text
+          link = BASE_URL + contact.xpath("blockquote/p/a")[0]['href']
+        end
+        @contacts[key] = value
+        @contact_links[key] = link
+      end
+
+      description = about.xpath "div[2][@class='row']/div[@class='span6']"
+      @info = {}
+      description.each do |info|
+        key = info.xpath("h6").text
+        value = info.xpath("pre").text
+        @info[key] = value
+      end
+
+      @bio = about.xpath("div[3][@class='row']/div[@class='span12']/pre").text
+
+      trophy_case = info_tabs.xpath "div[@id='trophycase']/div/div/ul/li"
+      @trophies = []
+      trophy_case.each do |trophy|
+        div = trophy.xpath('div')[0]
+        description = div['title']
+        name = div.xpath('h4').text
+        icon = div.xpath('div/i')[0]['class']
+        trophies << Trophy.new(name, description, icon)
+      end
+
     end
 
   end
@@ -84,6 +129,17 @@ module OvercastAPI
     def initialize(name, color)
       @name = name
       @color = color
+    end
+  end
+
+  class Trophy
+    attr_reader :name
+    attr_reader :description
+    attr_reader :icon # The FontAwesome icon
+    def initialize(name, description, icon)
+      @name = name
+      @description = description
+      @icon = icon
     end
   end
 
