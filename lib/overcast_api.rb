@@ -35,6 +35,8 @@ module OvercastAPI
     attr_reader :days_played
     attr_reader :raindrops
     attr_reader :monuments
+    attr_reader :cores
+    attr_reader :wools
     attr_reader :contacts
     attr_reader :contact_links
     attr_reader :info
@@ -140,6 +142,13 @@ module OvercastAPI
         slots = inf.children # <td>
         # @infractions << Infraction.new(punisher, punished, reason, type, expires, date)
       end
+
+      @wools = info_tabs.xpath("div[@id='objectives']/div/div[1]/h2").text
+      @wools = @wools.to_i
+      @cores = info_tabs.xpath("div[@id='objectives']/div/div[2]/h2").text
+      @cores = @cores.to_i
+      @monuments = info_tabs.xpath("div[@id='objectives']/div/div[3]/h2").text
+      @monuments = @monuments.to_i
 
     end
 
